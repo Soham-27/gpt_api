@@ -60,31 +60,6 @@ app.post('/chat', async (req, res) => {
         const botMessage = response.data.choices[0].message.content;
         const processdata=extractSteps(botMessage);
         res.json(processdata)
-        // console.log(botMessage); 
-        // const steps = parseSteps(botMessage);
-        // console.log(steps);
-        // const results = [];
-        // for (const step of steps) {
-        //      // Use UNNEST to handle text[] array and apply LIKE to each element
-        //      const query = `
-        //          SELECT worker_name 
-        //          FROM worker 
-        //          CROSS JOIN UNNEST(process) AS p 
-        //          WHERE p LIKE $1
-        //      `;
-        // }
-        //     const params = [`%${step}%`];
-        //     const result = await db.query(query, params);
-
-        //     if (result.rows.length > 0) {
-        //         // Extract worker names from the result
-        //         const workerNames = result.rows.map(row => row.worker_name); // Extract worker names
-        //         results.push({ step, workers: workerNames });
-        //     }
-        // }
-
-        // // Send results back to client
-        // res.json({ results });
 
     } catch (error) {
         console.error('Error communicating with OpenAI:', error.response ? error.response.data : error.message);
@@ -94,7 +69,10 @@ app.post('/chat', async (req, res) => {
 app.get("/",async(req,res)=>{
     res.send("hello world");
 })
- 
+app.get("/hello",async(req,res)=>{
+    const result= db.query("select* from operations");
+    console.log(result);
+})
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
